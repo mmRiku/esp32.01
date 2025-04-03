@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import styles from "../page.module.css";
 import { initializeApp, getApps } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
-import { getAnalytics } from "firebase/analytics";
+//import { getAnalytics } from "firebase/analytics";
 
 // Firebase config and initialization
 const firebaseConfig = {
@@ -31,6 +31,7 @@ export default function Dashboard() {
   const router = useRouter();
   const [toggle, setToggle] = useState(false);
   const [onTime, setOnTime] = useState(0);
+  const [waterLevel, setWaterLevel] = useState(0);
 
   // Check authentication on mount
   useEffect(() => {
@@ -83,6 +84,30 @@ export default function Dashboard() {
     };
   }, [toggle]);
 
+  // Modified useEffect to subscribe to waterLevel in Firebase
+  useEffect(() => {
+    const waterLevelRef = ref(db, "waterLevel");
+    const unsubscribeWater = onValue(
+      waterLevelRef,
+      (snapshot) => {
+        const value = snapshot.val();
+        if (value === null) {
+          set(waterLevelRef, 0)
+            .catch(error => console.error("Error setting initial waterLevel:", error));
+          setWaterLevel(0);
+        } else {
+          setWaterLevel(value);
+        }
+      },
+      (error) => {
+        console.error("Database read error:", error);
+      }
+    );
+    return () => {
+      unsubscribeWater && unsubscribeWater();
+    };
+  }, []);
+
   const formatTime = (seconds) => {
     if (seconds < 60) {
       return seconds.toString().padStart(2, "0") + " sec";
@@ -107,6 +132,10 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboardContainer}>
+      {/* New textbox for water level */}
+      <div style={{ position: "absolute", top: "20px", left: "20px", background: "#333", color: "#fff", padding: "5px", borderRadius: "3px" }}>
+        Waterlevel: {waterLevel}
+      </div>
       <button
         className={styles.logoutButton}
         onClick={handleLogout}
