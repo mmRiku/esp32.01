@@ -1,0 +1,88 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+.centeredContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.darkBox {
+  background-color: #4b4d55;
+  padding: 30px; /* increased padding */
+  border-radius: 8px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 1s ease;
+  min-width: 20vw;   /* base size */
+  min-height: 20vh;
+}
+
+/* New class for expanded size */
+.darkBox.expandedBox {
+  min-width: 20vw;
+  min-height: 25vh;
+}
+
+.toggleSlide {
+  transition: transform 1s ease;
+}
+
+.slideUp {
+  transform: translateY(-10px);
+}
+
+.fadeText {
+  margin-top: 30px;
+  transition: opacity 1s ease;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.invisible {
+  opacity: 0;
+}

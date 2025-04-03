@@ -1,0 +1,8 @@
+get command: 
+Invoke-RestMethod -Uri "http://localhost:3000/api/pumpState?key=abcd" -Method Get
+
+post command (pumpState):
+Invoke-RestMethod -Uri "http://localhost:3000/api/pumpState?key=abcd" -Method Post -Body '{"key":"abcd","pumpState":true}' -ContentType 'application/json'
+
+post command (waterLevel):
+Invoke-RestMethod -Uri "http://localhost:3000/api/waterLevel?key=abcd" -Method Post -Body '{"key":"abcd","waterLevel":30}' -ContentType 'application/json'
